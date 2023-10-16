@@ -14,12 +14,14 @@ import HomeIcon from "@mui/icons-material/Home";
 import PersonIcon from "@mui/icons-material/Person";
 import ShoppingBagIcon from "@mui/icons-material/ShoppingBag";
 import CircleIcon from "@mui/icons-material/Circle";
+import { useNavigate } from "react-router-dom";
 
 const Sidebar = () => {
 	const [open, setOpen] = React.useState(true);
+	const navigate = useNavigate();
 
 	const handleClick = () => {
-		setOpen(!open);
+		// setOpen(!open);
 	};
 	return (
 		<div>
@@ -48,8 +50,11 @@ const Sidebar = () => {
 					<ListItemIcon>
 						<ShoppingBagIcon />
 					</ListItemIcon>
-					<ListItemText primary="Shop" />
-					{open ? <ExpandLess /> : <ExpandMore />}
+					<ListItemText
+						primary="Shop"
+						onClick={() => navigate("/shop")}
+					/>
+					{/* {open ? <ExpandLess /> : <ExpandMore />} */}
 				</ListItemButton>
 				<Collapse in={open} timeout="auto" unmountOnExit>
 					<List component="div" disablePadding>

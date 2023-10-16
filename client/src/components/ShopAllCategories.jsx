@@ -5,6 +5,7 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import { CardActionArea } from "@mui/material";
+import { Link, useNavigate } from "react-router-dom";
 
 const categoryStatic = [
 	{
@@ -33,21 +34,31 @@ const categoryStatic = [
 	},
 ];
 
-const Main = () => {
+const ShopAllCategories = () => {
+	const navigate = useNavigate();
 	return (
 		<div>
-			<h2 style={{ margin: "10px 0" }}>Categories</h2>
+			<div>
+				<Link to="/shop">
+					<h2 style={{ margin: "10px 0" }}>Categories</h2>
+				</Link>
+			</div>
+			{/* <h2 style={{ margin: "10px 0" }}>Categories</h2> */}
 			<Grid container spacing={3}>
 				{categoryStatic.map((item, idx) => {
 					return (
 						<Grid item key={idx} xs={3}>
-							<Card>
+							<Card
+								onClick={() =>
+									navigate("/shop/" + item.catName)
+								}
+							>
 								<CardActionArea>
 									<CardMedia
 										component="img"
 										height="250"
 										image={item.img}
-										alt="green iguana"
+										alt={item.catName}
 									/>
 									<CardContent>
 										<Typography
@@ -68,4 +79,4 @@ const Main = () => {
 	);
 };
 
-export default Main;
+export default ShopAllCategories;

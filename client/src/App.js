@@ -2,7 +2,10 @@ import "./App.css";
 import Navbar from "./components/Navbar";
 import { Box, Stack } from "@mui/material";
 import Sidebar from "./components/Sidebar";
-import Main from "./components/Main";
+import ShopAllCategories from "./components/ShopAllCategories";
+import ShopCategory from "./components/ShopCategory";
+import ShopItem from "./components/ShopItem";
+import { Routes, Route } from "react-router-dom";
 
 function App() {
 	return (
@@ -10,7 +13,11 @@ function App() {
 			<Navbar />
 			<Stack direction="row" spacing={2} justifyContent="flex-start">
 				<Sidebar />
-				<Main />
+				<Routes>
+					<Route path="/shop" element={<ShopAllCategories />} />
+					<Route path="/shop/:category" element={<ShopCategory />} />
+					<Route path="/shop/:item/:color" element={<ShopItem />} />
+				</Routes>
 			</Stack>
 		</Box>
 	);
