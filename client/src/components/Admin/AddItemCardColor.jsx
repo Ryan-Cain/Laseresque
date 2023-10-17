@@ -22,18 +22,17 @@ const ColorButton = ({ color, setColor }) => {
 	);
 };
 
-const ItemCardColor = ({ item, showColorName }) => {
+const AddItemCardColor = ({ item, showColorName }) => {
 	const [color, setColor] = useState(item.colors[0]);
 	const navigate = useNavigate();
 	return (
 		<Card>
-			<CardContent onClick={() => navigate("/shop/item/" + color.color)}>
+			<CardContent>
 				<Typography gutterBottom variant="h5" component="div">
 					{item.name} {showColorName && `(${color.displayedColor})`}
 				</Typography>
 			</CardContent>
 			<CardMedia
-				onClick={() => navigate("/shop/item/" + color.color)}
 				component="img"
 				id="productCardImg"
 				image={color.img}
@@ -51,11 +50,10 @@ const ItemCardColor = ({ item, showColorName }) => {
 							/>
 						);
 					})}
-					<p>(In stock)</p>
 				</Stack>
 			</CardContent>
 		</Card>
 	);
 };
 
-export default ItemCardColor;
+export default AddItemCardColor;

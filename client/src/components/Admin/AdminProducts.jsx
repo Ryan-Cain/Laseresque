@@ -1,23 +1,25 @@
 import React from "react";
 import ProductDataTable from "./ProductDataTable";
-import { Button, Stack } from "@mui/material";
+import { Button, Stack, Container } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
+import { useNavigate } from "react-router-dom";
 
 const AdminProducts = () => {
+	const navigate = useNavigate();
 	return (
-		<div>
-			<h2>View Products</h2>
-			<Stack direction="row">
-				<Button
-					variant="contained"
-					size="large"
-					startIcon={<AddIcon />}
-				>
-					Add Product
-				</Button>
-			</Stack>
+		<Container>
+			<h2 style={{ margin: "15px 0" }}>View Products</h2>
+			<Button
+				style={{ marginBottom: "20px" }}
+				variant="contained"
+				size="large"
+				startIcon={<AddIcon />}
+				onClick={() => navigate("/admin/products/new")}
+			>
+				New Product
+			</Button>
 			<ProductDataTable />
-		</div>
+		</Container>
 	);
 };
 

@@ -11,7 +11,6 @@ import {
 	Menu,
 	MenuItem,
 } from "@mui/material";
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 
 const StyledToolbar = styled(Toolbar)({
 	display: "flex",
@@ -37,12 +36,6 @@ const AdminNavbar = () => {
 			<StyledToolbar>
 				<Typography variant="h6">Laseresque</Typography>
 				<Icons>
-					<Badge badgeContent={2} color="error">
-						<ShoppingCartIcon
-							onClick={() => navigate("/shop/cart")}
-							fontSize="large"
-						/>
-					</Badge>
 					<UserBox>
 						<Avatar
 							onClick={(e) => setOpen(true)}

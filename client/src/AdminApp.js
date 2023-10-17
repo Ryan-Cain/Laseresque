@@ -1,17 +1,25 @@
 import { useState } from "react";
 import AdminNavbar from "./components/Admin/AdminNavbar";
 import { Box, Stack } from "@mui/material";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import "./App.css";
 import AdminSidebar from "./components/Admin/AdminSidebar";
 import CategoryTable from "./components/Admin/CategoryTable";
 import AdminProducts from "./components/Admin/AdminProducts";
+import AdminApprovals from "./components/Admin/AdminApprovals";
+import AdminSingleApproval from "./components/Admin/AdminSingleApproval";
+import AddProduct from "./components/Admin/AddProduct";
 
 function App() {
 	return (
 		<Box>
 			<AdminNavbar />
-			<Stack direction="row" spacing={2} justifyContent="flex-start">
+			<Stack
+				direction="row"
+				spacing={2}
+				// justifyContent="center"
+				// sx={{ width: "100vw" }}
+			>
 				<AdminSidebar />
 				<Routes>
 					<Route
@@ -19,6 +27,22 @@ function App() {
 						element={<CategoryTable />}
 					/>
 					<Route path="/admin/products" element={<AdminProducts />} />
+					<Route
+						path="/admin"
+						element={<Navigate to="/admin/approvals" />}
+					/>
+					<Route
+						path="/admin/approvals"
+						element={<AdminApprovals />}
+					/>
+					<Route
+						path="/admin/approvals/:orderNumber"
+						element={<AdminSingleApproval />}
+					/>
+					<Route
+						path="/admin/products/new"
+						element={<AddProduct />}
+					/>
 				</Routes>
 			</Stack>
 		</Box>

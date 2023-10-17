@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Grid } from "@mui/material";
+import { Grid, Container } from "@mui/material";
 import { Link } from "react-router-dom";
 import ItemCardColor from "./ItemCardColor";
 
@@ -80,44 +80,49 @@ const ShopCategory = ({ setSideCartOpen }) => {
 		setSideCartOpen(true);
 	}, []);
 	return (
-		<div>
+		<Container>
 			<div
 				style={{
 					display: "flex",
 					alignItems: "center",
 				}}
-			>
-				<Link to="/shop">
-					<h2 style={{ margin: "10px 0", color: "blue" }}>
-						Categories
-					</h2>
-				</Link>
-				<span
-					style={{
-						padding: "0 15px",
-						fontSize: "24px",
-						color: "blue",
-					}}
-				>
-					{">"}
-				</span>
-				<Link to={"/shop/" + categoryStaticInfo.name}>
-					<h2 style={{ margin: "10px 0", color: "blue" }}>
-						{categoryStaticInfo.name}
-					</h2>
-				</Link>
-			</div>
+			></div>
 			{/* <h2 style={{ margin: "10px 0" }}>Categories</h2> */}
 			<Grid container spacing={3}>
+				<Grid
+					item
+					xs={12}
+					style={{ display: "flex", alignItems: "center" }}
+				>
+					<Link to="/shop">
+						<h2 style={{ margin: "10px 0", color: "blue" }}>
+							Categories
+						</h2>
+					</Link>
+					<span
+						style={{
+							padding: "0 15px",
+							fontSize: "24px",
+							color: "blue",
+						}}
+					>
+						{">"}
+					</span>
+					<Link to={"/shop/" + categoryStaticInfo.name}>
+						<h2 style={{ margin: "10px 0", color: "blue" }}>
+							{categoryStaticInfo.name}
+						</h2>
+					</Link>
+				</Grid>
 				{categoryStaticInfo.items.map((item, idx) => {
 					return (
-						<Grid item key={idx}>
+						<Grid item key={idx} xs={4}>
 							<ItemCardColor item={item} />
 						</Grid>
 					);
 				})}
 			</Grid>
-		</div>
+		</Container>
 	);
 };
 

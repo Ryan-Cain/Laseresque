@@ -22,55 +22,17 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import { visuallyHidden } from "@mui/utils";
 
-function createData(
-	category,
-	item,
-	img,
-	quantity,
-	lastUpdated,
-	price,
-	actions
-) {
+function createData(items, color, customText, quantity, subtotal) {
 	return {
-		category,
-		item,
-		img,
+		items,
+		color,
+		customText,
 		quantity,
-		lastUpdated,
-		price,
-		actions,
+		subtotal,
 	};
 }
 
-const rows = [
-	createData(
-		"Coasters",
-		"Coastguard Coaster",
-		"https://www.laseresque.com/images/products/thumbs/co-rc-101ab-01.png",
-		20,
-		"updated at",
-		5,
-		"edit | delete"
-	),
-	createData(
-		"Tumbler",
-		"16oz Tumbler",
-		"https://www.laseresque.com/images/products/thumbs/co-rc-101ab-01.png",
-		12,
-		"updated at",
-		25,
-		"edit | delete"
-	),
-	createData(
-		"Coasters",
-		"Coastguard Coaster",
-		"https://www.laseresque.com/images/products/thumbs/co-rc-101ab-01.png",
-		20,
-		"updated at",
-		5,
-		"edit | delete"
-	),
-];
+const rows = [createData("16oz tumbler", "blue", "this is custom text", 2, 40)];
 
 function descendingComparator(a, b, orderBy) {
 	if (b[orderBy] < a[orderBy]) {
@@ -106,22 +68,22 @@ function stableSort(array, comparator) {
 
 const headCells = [
 	{
-		id: "category",
-		numeric: false,
+		id: "items",
+		numeric: true,
 		disablePadding: true,
-		label: "Category",
+		label: "Items",
 	},
 	{
-		id: "item",
-		numeric: false,
-		disablePadding: true,
-		label: "Item",
-	},
-	{
-		id: "img",
+		id: "color",
 		numeric: false,
 		disablePadding: false,
-		label: "img",
+		label: "Color",
+	},
+	{
+		id: "customText",
+		numeric: false,
+		disablePadding: false,
+		label: "Custom Text",
 	},
 	{
 		id: "quantity",
@@ -130,16 +92,10 @@ const headCells = [
 		label: "Quantity",
 	},
 	{
-		id: "lastUpdated",
+		id: "subtotal",
 		numeric: true,
 		disablePadding: false,
-		label: "lastUpdated",
-	},
-	{
-		id: "price",
-		numeric: true,
-		disablePadding: false,
-		label: "price",
+		label: "Subtotal",
 	},
 ];
 
@@ -230,7 +186,7 @@ function EnhancedTableToolbar(props) {
 					id="tableTitle"
 					component="div"
 				>
-					{`All (${54} items)`}
+					{3 + " items"}
 				</Typography>
 			)}
 
@@ -360,15 +316,12 @@ export default function EnhancedTable() {
 											scope="row"
 											padding="none"
 										>
-											{row.category}
+											{row.items}
 										</TableCell>
-										<TableCell>{row.item}</TableCell>
-										<TableCell>
-											<img src={row.img} alt={row.item} />
-										</TableCell>
+										<TableCell>{row.color}</TableCell>
+										<TableCell>{row.customText}</TableCell>
 										<TableCell>{row.quantity}</TableCell>
-										<TableCell>{row.lastUpdated}</TableCell>
-										<TableCell>$ {row.price}</TableCell>
+										<TableCell>${row.subtotal}</TableCell>
 									</TableRow>
 								);
 							})}

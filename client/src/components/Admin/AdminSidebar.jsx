@@ -10,6 +10,7 @@ import ApprovalIcon from "@mui/icons-material/Approval";
 import InventoryIcon from "@mui/icons-material/Inventory";
 import AssignmentIcon from "@mui/icons-material/Assignment";
 import TrendingUpIcon from "@mui/icons-material/TrendingUp";
+import SettingsIcon from "@mui/icons-material/Settings";
 import { useNavigate } from "react-router-dom";
 import { Grid } from "@mui/material";
 
@@ -27,7 +28,7 @@ const AdminSidebar = () => {
 				component="nav"
 				aria-labelledby="nested-list-subheader"
 			>
-				<ListItemButton>
+				<ListItemButton onClick={() => navigate("/admin/approvals")}>
 					<ListItemIcon>
 						<ApprovalIcon />
 					</ListItemIcon>
@@ -39,6 +40,12 @@ const AdminSidebar = () => {
 					</ListItemIcon>
 					<ListItemText primary="Categories" />
 				</ListItemButton>
+				<ListItemButton>
+					<ListItemIcon>
+						<AssignmentIcon />
+					</ListItemIcon>
+					<ListItemText primary="Orders" />
+				</ListItemButton>
 				<ListItemButton onClick={() => navigate("/admin/products")}>
 					<ListItemIcon>
 						<InventoryIcon />
@@ -47,15 +54,15 @@ const AdminSidebar = () => {
 				</ListItemButton>
 				<ListItemButton>
 					<ListItemIcon>
-						<AssignmentIcon />
-					</ListItemIcon>
-					<ListItemText primary="Orders" />
-				</ListItemButton>
-				<ListItemButton>
-					<ListItemIcon>
 						<TrendingUpIcon />
 					</ListItemIcon>
 					<ListItemText primary="Sales" />
+				</ListItemButton>
+				<ListItemButton>
+					<ListItemIcon>
+						<SettingsIcon />
+					</ListItemIcon>
+					<ListItemText primary="Settings" />
 				</ListItemButton>
 			</List>
 		</div>

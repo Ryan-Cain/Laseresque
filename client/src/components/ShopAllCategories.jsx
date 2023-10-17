@@ -4,7 +4,7 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
-import { CardActionArea } from "@mui/material";
+import { CardActionArea, Container } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 
 const categoryStatic = [
@@ -41,17 +41,16 @@ const ShopAllCategories = ({ setSideCartOpen }) => {
 	}, []);
 
 	return (
-		<div>
-			<div>
-				<Link to="/shop">
-					<h2 style={{ margin: "10px 0" }}>Categories</h2>
-				</Link>
-			</div>
-			{/* <h2 style={{ margin: "10px 0" }}>Categories</h2> */}
+		<Container>
 			<Grid container spacing={3}>
+				<Grid item xs={12}>
+					<Link to="/shop">
+						<h2 style={{ margin: "10px 0" }}>Categories</h2>
+					</Link>
+				</Grid>
 				{categoryStatic.map((item, idx) => {
 					return (
-						<Grid item key={idx} xs={3}>
+						<Grid item key={idx} xs={4}>
 							<Card
 								onClick={() =>
 									navigate("/shop/" + item.catName)
@@ -79,7 +78,7 @@ const ShopAllCategories = ({ setSideCartOpen }) => {
 					);
 				})}
 			</Grid>
-		</div>
+		</Container>
 	);
 };
 

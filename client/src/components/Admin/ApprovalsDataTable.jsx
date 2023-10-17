@@ -21,54 +21,34 @@ import Switch from "@mui/material/Switch";
 import DeleteIcon from "@mui/icons-material/Delete";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import { visuallyHidden } from "@mui/utils";
+import { Link } from "react-router-dom";
 
 function createData(
-	category,
-	item,
-	img,
-	quantity,
-	lastUpdated,
+	orderNumber,
+	items,
+	orderDateTime,
+	timeRemaining,
 	price,
-	actions
+	user
 ) {
 	return {
-		category,
-		item,
-		img,
-		quantity,
-		lastUpdated,
+		orderNumber,
+		items,
+		orderDateTime,
+		timeRemaining,
 		price,
-		actions,
+		user,
 	};
 }
 
 const rows = [
 	createData(
-		"Coasters",
-		"Coastguard Coaster",
-		"https://www.laseresque.com/images/products/thumbs/co-rc-101ab-01.png",
-		20,
-		"updated at",
-		5,
-		"edit | delete"
-	),
-	createData(
-		"Tumbler",
-		"16oz Tumbler",
-		"https://www.laseresque.com/images/products/thumbs/co-rc-101ab-01.png",
-		12,
-		"updated at",
-		25,
-		"edit | delete"
-	),
-	createData(
-		"Coasters",
-		"Coastguard Coaster",
-		"https://www.laseresque.com/images/products/thumbs/co-rc-101ab-01.png",
-		20,
-		"updated at",
-		5,
-		"edit | delete"
+		"asdkjfn487sakjdf",
+		"5",
+		"10-17-23 9:23am",
+		"16hrs 23mins",
+		"54",
+		"hunter12"
 	),
 ];
 
@@ -106,40 +86,40 @@ function stableSort(array, comparator) {
 
 const headCells = [
 	{
-		id: "category",
+		id: "orderNumber",
 		numeric: false,
 		disablePadding: true,
-		label: "Category",
+		label: "Order #",
 	},
 	{
-		id: "item",
-		numeric: false,
+		id: "items",
+		numeric: true,
 		disablePadding: true,
-		label: "Item",
+		label: "Items",
 	},
 	{
-		id: "img",
+		id: "orderDateTime",
 		numeric: false,
 		disablePadding: false,
-		label: "img",
+		label: "Ordered on",
 	},
 	{
-		id: "quantity",
-		numeric: true,
+		id: "timeRemaining",
+		numeric: false,
 		disablePadding: false,
-		label: "Quantity",
-	},
-	{
-		id: "lastUpdated",
-		numeric: true,
-		disablePadding: false,
-		label: "lastUpdated",
+		label: "Time Remaining",
 	},
 	{
 		id: "price",
 		numeric: true,
 		disablePadding: false,
-		label: "price",
+		label: "Price",
+	},
+	{
+		id: "user",
+		numeric: false,
+		disablePadding: false,
+		label: "User",
 	},
 ];
 
@@ -230,7 +210,7 @@ function EnhancedTableToolbar(props) {
 					id="tableTitle"
 					component="div"
 				>
-					{`All (${54} items)`}
+					{`All (${54} pending approvals)`}
 				</Typography>
 			)}
 
@@ -360,15 +340,24 @@ export default function EnhancedTable() {
 											scope="row"
 											padding="none"
 										>
-											{row.category}
+											<Link
+												to={
+													"/admin/approvals/" +
+													row.orderNumber
+												}
+											>
+												{row.orderNumber}
+											</Link>
 										</TableCell>
-										<TableCell>{row.item}</TableCell>
+										<TableCell>{row.items}</TableCell>
 										<TableCell>
-											<img src={row.img} alt={row.item} />
+											{row.orderDateTime}
 										</TableCell>
-										<TableCell>{row.quantity}</TableCell>
-										<TableCell>{row.lastUpdated}</TableCell>
-										<TableCell>$ {row.price}</TableCell>
+										<TableCell>
+											{row.timeRemaining}
+										</TableCell>
+										<TableCell>${row.price}</TableCell>
+										<TableCell>{row.user}</TableCell>
 									</TableRow>
 								);
 							})}

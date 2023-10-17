@@ -2,7 +2,16 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: "Roboto";
 }
 body {
     background-color: gray;
+}
+
+/* Category */
+#productCardImg {
+    object-fit: contain;
+    height: 300px;
+    width: 100%;
+    
 }

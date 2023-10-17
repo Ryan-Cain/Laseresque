@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Stack, Box, Grid, Item } from "@mui/material";
+import { Stack, Box, Grid, Item, Container } from "@mui/material";
 import { Link } from "react-router-dom";
 import ItemCardColor from "./ItemCardColor";
 import TextField from "@mui/material/TextField";
@@ -38,111 +38,108 @@ const ShopItem = ({ setSideCartOpen }) => {
 		setSideCartOpen(true);
 	});
 	return (
-		<div style={{ width: "100%", justifySelf: "center" }}>
-			<div
-				style={{
-					display: "flex",
-					alignItems: "center",
-				}}
+		<Container>
+			<Grid
+				container
+				spacing={2}
+				sx={{ backgroundColor: "white", marginTop: "25px" }}
 			>
-				<Link to="/shop">
-					<h2 style={{ margin: "10px 0", color: "blue" }}>
-						Categories
-					</h2>
-				</Link>
-				<span
+				<Grid
+					item
+					xs={12}
 					style={{
-						padding: "0 15px",
-						fontSize: "24px",
-						color: "blue",
+						display: "flex",
+						alignItems: "center",
 					}}
 				>
-					{">"}
-				</span>
-				<Link to={"/shop/" + itemStaticInfo.category}>
-					<h2 style={{ margin: "10px 0", color: "blue" }}>
-						{itemStaticInfo.category}
-					</h2>
-				</Link>
-				<span
-					style={{
-						padding: "0 15px",
-						fontSize: "24px",
-						color: "blue",
-					}}
-				>
-					{">"}
-				</span>
-				<Link
-					to={
-						"/shop/" +
-						itemStaticInfo.category +
-						"/" +
-						itemStaticInfo.name
-					}
-				>
-					<h2 style={{ margin: "10px 0", color: "blue" }}>
-						{itemStaticInfo.name}
-					</h2>
-				</Link>
-			</div>
-			{/* <h2 style={{ margin: "10px 0" }}>Categories</h2> */}
-			<Grid container spacing={2} style={{ width: "100%" }}>
-				<Grid item>
-					<Stack
-						direction="row"
+					<Link to="/shop">
+						<h2 style={{ margin: "10px 0", color: "blue" }}>
+							Categories
+						</h2>
+					</Link>
+					<span
 						style={{
-							backgroundColor: "white",
+							padding: "0 15px",
+							fontSize: "24px",
+							color: "blue",
 						}}
 					>
-						<ItemCardColor
-							item={itemStaticInfo}
-							showColorName={true}
+						{">"}
+					</span>
+					<Link to={"/shop/" + itemStaticInfo.category}>
+						<h2 style={{ margin: "10px 0", color: "blue" }}>
+							{itemStaticInfo.category}
+						</h2>
+					</Link>
+					<span
+						style={{
+							padding: "0 15px",
+							fontSize: "24px",
+							color: "blue",
+						}}
+					>
+						{">"}
+					</span>
+					<Link
+						to={
+							"/shop/" +
+							itemStaticInfo.category +
+							"/" +
+							itemStaticInfo.name
+						}
+					>
+						<h2 style={{ margin: "10px 0", color: "blue" }}>
+							{itemStaticInfo.name}
+						</h2>
+					</Link>
+				</Grid>
+				<Grid item xs={6}>
+					<ItemCardColor item={itemStaticInfo} showColorName={true} />
+				</Grid>
+				<Grid item xs={6}>
+					<Box
+						component="form"
+						sx={{
+							"& > :not(style)": { m: 1, width: "25ch" },
+						}}
+						noValidate
+						autoComplete="off"
+					>
+						<h2>Custom Text</h2>
+						<p>Line 1:</p>
+						<TextField
+							id="outlined-basic"
+							// label="Line 1"
+							variant="outlined"
 						/>
-						<Box
-							component="form"
-							sx={{
-								"& > :not(style)": { m: 1, width: "25ch" },
-							}}
-							noValidate
-							autoComplete="off"
-						>
-							<h2>Custom Text</h2>
-							<p>Line 1:</p>
-							<TextField
-								id="outlined-basic"
-								// label="Line 1"
-								variant="outlined"
-							/>
-							<p>Line 2:</p>
-							<TextField
-								id="outlined-basic"
-								// label="Line 2"
-								variant="outlined"
-							/>
-							<p>Line 3:</p>
-							<TextField
-								id="outlined-basic"
-								// label="Line 3"
-								variant="outlined"
-							/>
-							<p>Quantity:</p>
-							<TextField
-								type="number"
-								defaultValue="1"
-								id="outlined-basic"
-								// label="Quantity"
-								variant="outlined"
-							/>
-							<br />
-							<Button variant="contained" size="large">
-								Add to cart
-							</Button>
-						</Box>
-					</Stack>
+						<p>Line 2:</p>
+						<TextField
+							id="outlined-basic"
+							// label="Line 2"
+							variant="outlined"
+						/>
+						<p>Line 3:</p>
+						<TextField
+							id="outlined-basic"
+							// label="Line 3"
+							variant="outlined"
+						/>
+						<p>Quantity:</p>
+						<TextField
+							type="number"
+							defaultValue="1"
+							id="outlined-basic"
+							// label="Quantity"
+							variant="outlined"
+						/>
+						<br />
+						<Button variant="contained" size="large">
+							Add to cart
+						</Button>
+					</Box>
 				</Grid>
 			</Grid>
-		</div>
+		</Container>
 	);
 };
 
