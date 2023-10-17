@@ -27,37 +27,33 @@ const ItemCardColor = ({ item, showColorName }) => {
 	const navigate = useNavigate();
 	return (
 		<Card>
-			<CardActionArea>
-				<CardContent
-					onClick={() => navigate("/shop/item/" + color.color)}
-				>
-					<Typography gutterBottom variant="h5" component="div">
-						{item.name}{" "}
-						{showColorName && `(${color.displayedColor})`}
-					</Typography>
-				</CardContent>
-				<CardMedia
-					onClick={() => navigate("/shop/item/" + color.color)}
-					component="img"
-					height="250"
-					image={color.img}
-					alt={color.color}
-				/>
-				<CardContent>
-					<Stack direction="row">
-						{item.colors.map((color, idx) => {
-							console.log(color);
-							return (
-								<ColorButton
-									key={idx}
-									color={color}
-									setColor={setColor}
-								/>
-							);
-						})}
-					</Stack>
-				</CardContent>
-			</CardActionArea>
+			<CardContent onClick={() => navigate("/shop/item/" + color.color)}>
+				<Typography gutterBottom variant="h5" component="div">
+					{item.name} {showColorName && `(${color.displayedColor})`}
+				</Typography>
+			</CardContent>
+			<CardMedia
+				onClick={() => navigate("/shop/item/" + color.color)}
+				component="img"
+				height="250"
+				image={color.img}
+				alt={color.color}
+			/>
+			<CardContent>
+				<Stack direction="row" sx={{ alignItems: "center" }}>
+					{item.colors.map((color, idx) => {
+						console.log(color);
+						return (
+							<ColorButton
+								key={idx}
+								color={color}
+								setColor={setColor}
+							/>
+						);
+					})}
+					<p>(In stock)</p>
+				</Stack>
+			</CardContent>
 		</Card>
 	);
 };

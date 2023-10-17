@@ -1,4 +1,4 @@
-import * as React from "react";
+import { useEffect } from "react";
 import { Grid } from "@mui/material";
 import { Link } from "react-router-dom";
 import ItemCardColor from "./ItemCardColor";
@@ -75,7 +75,10 @@ const categoryStaticInfo = {
 	],
 };
 
-const ShopCategory = () => {
+const ShopCategory = ({ setSideCartOpen }) => {
+	useEffect(() => {
+		setSideCartOpen(true);
+	}, []);
 	return (
 		<div>
 			<div

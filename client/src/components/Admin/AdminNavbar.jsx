@@ -29,7 +29,7 @@ const UserBox = styled(Box)(({ theme }) => ({
 	gap: "10px",
 }));
 
-const Navbar = () => {
+const AdminNavbar = () => {
 	const [open, setOpen] = useState(false);
 	const navigate = useNavigate();
 	return (
@@ -76,4 +76,4 @@ const Navbar = () => {
 	);
 };
 
-export default Navbar;
+export default AdminNavbar;

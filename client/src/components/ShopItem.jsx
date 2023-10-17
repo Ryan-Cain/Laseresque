@@ -1,4 +1,4 @@
-import * as React from "react";
+import { useEffect } from "react";
 import { Stack, Box, Grid, Item } from "@mui/material";
 import { Link } from "react-router-dom";
 import ItemCardColor from "./ItemCardColor";
@@ -33,7 +33,10 @@ const itemStaticInfo = {
 	],
 };
 
-const ShopItem = () => {
+const ShopItem = ({ setSideCartOpen }) => {
+	useEffect(() => {
+		setSideCartOpen(true);
+	});
 	return (
 		<div style={{ width: "100%", justifySelf: "center" }}>
 			<div
