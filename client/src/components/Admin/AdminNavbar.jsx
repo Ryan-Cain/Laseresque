@@ -34,7 +34,7 @@ const AdminNavbar = () => {
 	return (
 		<AppBar position="sticky">
 			<StyledToolbar>
-				<Typography variant="h6">Laseresque</Typography>
+				<Typography variant="h6">Laseresque (ADMIN)</Typography>
 				<Icons>
 					<UserBox>
 						<Avatar

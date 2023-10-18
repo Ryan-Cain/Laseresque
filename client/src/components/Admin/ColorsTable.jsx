@@ -20,7 +20,7 @@ const rows = [
 	),
 ];
 
-export default function ColorsTable() {
+export default function ColorsTable({ setOpenColorInput }) {
 	return (
 		<TableContainer component={Paper}>
 			<Table aria-label="simple table">
@@ -39,6 +39,7 @@ export default function ColorsTable() {
 								}}
 								variant="contained"
 								size="small"
+								onClick={() => setOpenColorInput(true)}
 							>
 								Add Color
 							</Button>

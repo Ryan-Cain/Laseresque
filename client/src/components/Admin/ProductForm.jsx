@@ -8,8 +8,12 @@ import ColorsTable from "./ColorsTable";
 import AddIcon from "@mui/icons-material/Add";
 import CustomTextTable from "./CustomTextTable";
 
-const ProductForm = () => {
-	const [openColorInput, setOpenColorInput] = useState(true);
+const ProductForm = ({ colorChange, itemChange, addColor }) => {
+	const [openColorInput, setOpenColorInput] = useState(false);
+	// const submitColor = (e) => {
+	// 	e.preventDefault();
+
+	// }
 	return (
 		<Container>
 			<form>
@@ -28,7 +32,9 @@ const ProductForm = () => {
 							>
 								<label>Product Name</label>
 								<TextField
+									onChange={(e) => itemChange(e)}
 									id="outlined-basic"
+									name="name"
 									variant="outlined"
 								/>
 							</div>
@@ -41,8 +47,10 @@ const ProductForm = () => {
 							>
 								<label>Price</label>
 								<TextField
+									onChange={(e) => itemChange(e)}
 									id="outlined-basic"
 									type="number"
+									name="price"
 									defaultValue={0}
 									variant="outlined"
 								/>
@@ -71,7 +79,9 @@ const ProductForm = () => {
 						<h3 style={{ padding: "10px 0 0 10px" }}>Colors</h3>
 						<Stack>
 							{/* <label>Colors</label> */}
-							<ColorsTable />
+							<ColorsTable
+								setOpenColorInput={setOpenColorInput}
+							/>
 							{openColorInput && (
 								<Stack
 									direction="row"
@@ -81,7 +91,12 @@ const ProductForm = () => {
 										paddingLeft: "15px",
 									}}
 								>
-									<AddCircleIcon />
+									<AddCircleIcon
+										onClick={(e) => {
+											addColor(e);
+											setOpenColorInput(false);
+										}}
+									/>
 									<div
 										style={{
 											display: "flex",
@@ -90,7 +105,12 @@ const ProductForm = () => {
 										}}
 									>
 										<label>Color Picker</label>
-										<input type="color" name="" id="" />
+										<input
+											onChange={(e) => colorChange(e)}
+											type="color"
+											name="color"
+											id=""
+										/>
 									</div>
 									<div
 										style={{
@@ -101,7 +121,9 @@ const ProductForm = () => {
 									>
 										<label>Color Name</label>
 										<TextField
+											onChange={(e) => colorChange(e)}
 											id="outlined-basic"
+											name="colorName"
 											variant="outlined"
 										/>
 									</div>
@@ -113,6 +135,8 @@ const ProductForm = () => {
 									>
 										<label>Image URL</label>
 										<TextField
+											onChange={(e) => colorChange(e)}
+											name="imageURL"
 											id="outlined-basic"
 											variant="outlined"
 										/>

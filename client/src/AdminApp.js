@@ -8,7 +8,7 @@ import CategoryTable from "./components/Admin/CategoryTable";
 import AdminProducts from "./components/Admin/AdminProducts";
 import AdminApprovals from "./components/Admin/AdminApprovals";
 import AdminSingleApproval from "./components/Admin/AdminSingleApproval";
-import AddProduct from "./components/Admin/AddProduct";
+import NewProduct from "./components/Admin/AddProduct";
 
 function App() {
 	return (
@@ -17,6 +17,7 @@ function App() {
 			<Stack
 				direction="row"
 				spacing={2}
+				position="sticky"
 				// justifyContent="center"
 				// sx={{ width: "100vw" }}
 			>
@@ -41,7 +42,7 @@ function App() {
 					/>
 					<Route
 						path="/admin/products/new"
-						element={<AddProduct />}
+						element={<NewProduct />}
 					/>
 				</Routes>
 			</Stack>

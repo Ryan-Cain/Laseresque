@@ -22,26 +22,32 @@ const ColorButton = ({ color, setColor }) => {
 	);
 };
 
-const AddItemCardColor = ({ item, showColorName }) => {
-	const [color, setColor] = useState(item.colors[0]);
+const AddItemCardColor = ({ newItem, showColorName }) => {
+	const colorState = newItem.colors[0]
+		? newItem.colors[0]
+		: {
+				colorName: "no color",
+				img: "https://www.stma.org/wp-content/uploads/2017/10/no-image-icon.png",
+		  };
+	const [color, setColor] = useState(colorState);
 	const navigate = useNavigate();
 	return (
 		<Card>
 			<CardContent>
 				<Typography gutterBottom variant="h5" component="div">
-					{item.name} {showColorName && `(${color.displayedColor})`}
+					{newItem.name}{" "}
+					{showColorName && `(${color.displayedColor})`}
 				</Typography>
 			</CardContent>
 			<CardMedia
 				component="img"
 				id="productCardImg"
 				image={color.img}
-				alt={color.color}
+				alt={color.colorName}
 			/>
 			<CardContent>
 				<Stack direction="row" sx={{ alignItems: "center" }}>
-					{item.colors.map((color, idx) => {
-						console.log(color);
+					{newItem.colors.map((color, idx) => {
 						return (
 							<ColorButton
 								key={idx}

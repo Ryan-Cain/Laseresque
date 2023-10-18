@@ -1,10 +1,42 @@
-import React from "react";
+import { useState } from "react";
 import { Container, Grid } from "@mui/material";
 import AddItemCardColor from "./AddItemCardColor";
 import ProductForm from "./ProductForm";
 import { Paper } from "@mui/material";
 
-const AddProduct = () => {
+const NewProduct = () => {
+	const [newItem, setNewItem] = useState({
+		name: "",
+		price: 0,
+		hasColors: false,
+		hasCustomText: false,
+		colors: [],
+		customText: [],
+	});
+	const itemChange = (e) => {
+		e.preventDefault();
+		setNewItem({
+			...newItem,
+			[e.target.name]: e.target.value,
+		});
+	};
+	const [customColor, setCustomColor] = useState({});
+	const colorChange = (e) => {
+		console.log(e);
+		setCustomColor({
+			...customColor,
+			[e.target.name]: e.target.value,
+		});
+		console.log(customColor);
+	};
+	const addColor = () => {
+		const colors = [...newItem.colors, customColor];
+		setNewItem({
+			...newItem,
+			colors,
+		});
+	};
+	const [customText, setCustomText] = useState([]);
 	const item = {
 		name: "16oz Tumbler",
 		colorPick: true,
@@ -34,15 +66,19 @@ const AddProduct = () => {
 			<Grid container>
 				<Grid item xs={5}>
 					<Paper elevation={12}>
-						<AddItemCardColor item={item} />
+						<AddItemCardColor newItem={newItem} />
 					</Paper>
 				</Grid>
 				<Grid item xs={7}>
-					<ProductForm />
+					<ProductForm
+						colorChange={colorChange}
+						itemChange={itemChange}
+						addColor={addColor}
+					/>
 				</Grid>
 			</Grid>
 		</Container>
 	);
 };
 
-export default AddProduct;
+export default NewProduct;
