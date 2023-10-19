@@ -5,7 +5,8 @@
     font-family: "Roboto";
 }
 body {
-    background-color: gray;
+    /* background-color: rgb(230, 227, 227); */
+    background-color: rgb(232, 234, 234);
 }
 
 /* Category */
@@ -15,3 +16,4 @@ body {
     width: 100%;
     
 }
+

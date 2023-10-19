@@ -3,18 +3,17 @@ import { Container, Stack, Button, Paper } from "@mui/material";
 import TextField from "@mui/material/TextField";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
+import EditIcon from "@mui/icons-material/Edit";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import ColorsTable from "./ColorsTable";
 import AddIcon from "@mui/icons-material/Add";
 import CustomTextTable from "./CustomTextTable";
 import InputLabel from "@mui/material/InputLabel";
-import ClearIcon from "@mui/icons-material/Clear";
-import SaveAltIcon from "@mui/icons-material/SaveAlt";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 
-const ProductForm = ({
+const ProductViewForm = ({
 	colorChange,
 	itemChange,
 	addColor,
@@ -22,7 +21,6 @@ const ProductForm = ({
 	customTextChange,
 	addCustomText,
 	createProduct,
-	editing,
 	setEditing,
 }) => {
 	const [openColorInput, setOpenColorInput] = useState(false);
@@ -57,6 +55,7 @@ const ProductForm = ({
 									name="name"
 									value={newItem.name}
 									variant="outlined"
+									InputProps={{ readOnly: true }}
 								/>
 							</div>
 							<div
@@ -72,6 +71,7 @@ const ProductForm = ({
 									id="outlined-basic"
 									type="number"
 									name="price"
+									InputProps={{ readOnly: true }}
 									placeholder="0"
 									value={newItem.price}
 									variant="outlined"
@@ -92,6 +92,7 @@ const ProductForm = ({
 									placeholder="0"
 									id="outlined-basic"
 									type="number"
+									InputProps={{ readOnly: true }}
 									name="quantity"
 									value={newItem.quantity}
 									variant="outlined"
@@ -110,6 +111,7 @@ const ProductForm = ({
 										id="demo-simple-select"
 										value={newItem.category}
 										name="category"
+										InputProps={{ readOnly: true }}
 										onChange={(e) => itemChange(e)}
 									>
 										{categories.map((category, idx) => {
@@ -133,15 +135,17 @@ const ProductForm = ({
 						>
 							<FormControlLabel
 								checked={newItem.hasColors}
-								onChange={itemChange}
+								// onChange={itemChange}
 								control={<Checkbox />}
+								InputProps={{ readOnly: true }}
 								name="hasColors"
 								label="Has Colors?"
 							/>
 							<FormControlLabel
 								checked={newItem.hasCustomText}
-								onChange={itemChange}
+								// onChange={itemChange}
 								control={<Checkbox />}
+								InputProps={{ readOnly: true }}
 								name="hasCustomText"
 								label="Has Custom Text?"
 							/>
@@ -161,70 +165,8 @@ const ProductForm = ({
 									openColorInput={openColorInput}
 									setOpenColorInput={setOpenColorInput}
 									newItem={newItem}
-									disabled={false}
+									disabled={true}
 								/>
-								{openColorInput && (
-									<Stack
-										direction="row"
-										style={{
-											alignItems: "center",
-											marginTop: "15px",
-											paddingLeft: "15px",
-											paddingBottom: "15px",
-										}}
-									>
-										<AddCircleIcon
-											onClick={(e) => {
-												addColor(e);
-												setOpenColorInput(false);
-											}}
-										/>
-										<div
-											style={{
-												display: "flex",
-												flexDirection: "column",
-												marginLeft: "15px",
-											}}
-										>
-											<label>Color Picker</label>
-											<input
-												onChange={(e) => colorChange(e)}
-												type="color"
-												name="color"
-												id=""
-											/>
-										</div>
-										<div
-											style={{
-												display: "flex",
-												flexDirection: "column",
-												margin: "0 15px",
-											}}
-										>
-											<label>Color Name</label>
-											<TextField
-												onChange={(e) => colorChange(e)}
-												id="outlined-basic"
-												name="colorName"
-												variant="outlined"
-											/>
-										</div>
-										<div
-											style={{
-												display: "flex",
-												flexDirection: "column",
-											}}
-										>
-											<label>Image URL</label>
-											<TextField
-												onChange={(e) => colorChange(e)}
-												name="imageURL"
-												id="outlined-basic"
-												variant="outlined"
-											/>
-										</div>
-									</Stack>
-								)}
 							</Stack>
 						</Paper>
 					)}
@@ -244,111 +186,28 @@ const ProductForm = ({
 									setOpenCustomTextInput={
 										setOpenCustomTextInput
 									}
-									disabled={false}
+									disabled={true}
 								/>
-								{openCustomTextInput && (
-									<Stack
-										direction="row"
-										style={{
-											alignItems: "center",
-											margin: "15px 0",
-											paddingLeft: "15px",
-										}}
-									>
-										<AddCircleIcon
-											onClick={(e) => {
-												addCustomText(e);
-												setOpenCustomTextInput(
-													!openCustomTextInput
-												);
-											}}
-										/>
-										<div
-											style={{
-												display: "flex",
-												flexDirection: "column",
-												margin: "0 15px",
-											}}
-										>
-											<label>Custom Line Name</label>
-											<TextField
-												onChange={(e) =>
-													customTextChange(e)
-												}
-												id="outlined-basic"
-												name="customLineName"
-												variant="outlined"
-											/>
-										</div>
-										<div
-											style={{
-												display: "flex",
-												flexDirection: "column",
-											}}
-										>
-											<label>Max Character Length</label>
-											<TextField
-												onChange={(e) =>
-													customTextChange(e)
-												}
-												name="maxCharLength"
-												id="outlined-basic"
-												variant="outlined"
-											/>
-										</div>
-									</Stack>
-								)}
 							</Stack>
 						</Paper>
 					)}
-					{editing ? (
-						<div style={{ display: "flex", alignSelf: "flex-end" }}>
-							<Button
-								style={{
-									width: "fit-content",
-									alignSelf: "flex-end",
-									margin: "20px 0 0 0",
-								}}
-								variant="contained"
-								size="large"
-								startIcon={<ClearIcon />}
-								onClick={() => setEditing(false)}
-							>
-								Cancel
-							</Button>
-							<Button
-								style={{
-									width: "fit-content",
-									alignSelf: "flex-end",
-									margin: "20px 0 0 25px",
-								}}
-								variant="contained"
-								size="large"
-								startIcon={<SaveAltIcon />}
-								onClick={createProduct}
-							>
-								Save Changes
-							</Button>
-						</div>
-					) : (
-						<Button
-							style={{
-								width: "fit-content",
-								alignSelf: "flex-end",
-								margin: "20px 0 0 0",
-							}}
-							variant="contained"
-							size="large"
-							startIcon={<AddIcon />}
-							onClick={createProduct}
-						>
-							Add Product
-						</Button>
-					)}
+					<Button
+						style={{
+							width: "fit-content",
+							alignSelf: "flex-end",
+							margin: "20px 0 0 0",
+						}}
+						variant="contained"
+						size="large"
+						startIcon={<EditIcon />}
+						onClick={() => setEditing(true)}
+					>
+						Edit Product
+					</Button>
 				</Stack>
 			</form>
 		</Container>
 	);
 };
 
-export default ProductForm;
+export default ProductViewForm;

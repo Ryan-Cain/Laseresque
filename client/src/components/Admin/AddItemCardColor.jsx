@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
@@ -22,27 +22,35 @@ const ColorButton = ({ color, setColor }) => {
 	);
 };
 
-const AddItemCardColor = ({ newItem, showColorName }) => {
-	const colorState = newItem.colors[0]
-		? newItem.colors[0]
-		: {
-				colorName: "no color",
-				img: "https://www.stma.org/wp-content/uploads/2017/10/no-image-icon.png",
-		  };
-	const [color, setColor] = useState(colorState);
+const AddItemCardColor = ({ newItem }) => {
+	const noColorState = {
+		colorName: "No Color",
+		imageURL:
+			"https://www.stma.org/wp-content/uploads/2017/10/no-image-icon.png",
+	};
+	const [color, setColor] = useState(noColorState);
+
 	const navigate = useNavigate();
 	return (
 		<Card>
 			<CardContent>
 				<Typography gutterBottom variant="h5" component="div">
-					{newItem.name}{" "}
-					{showColorName && `(${color.displayedColor})`}
+					{newItem.name ? newItem.name : "(No Name)"}{" "}
+					{newItem.hasColors
+						? newItem.colors.length > 0 &&
+						  `(${newItem.colors[0].colorName})`
+						: newItem.hasColors && color.colorName}
 				</Typography>
 			</CardContent>
 			<CardMedia
 				component="img"
 				id="productCardImg"
-				image={color.img}
+				image={
+					newItem.hasColors
+						? newItem.colors.length > 0 &&
+						  newItem.colors[0].imageURL
+						: noColorState.imageURL
+				}
 				alt={color.colorName}
 			/>
 			<CardContent>

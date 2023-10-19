@@ -1,4 +1,5 @@
-import * as React from "react";
+import React, { useState } from "react";
+import { useEffect } from "react";
 import PropTypes from "prop-types";
 import { alpha } from "@mui/material/styles";
 import Box from "@mui/material/Box";
@@ -18,19 +19,11 @@ import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
-import DeleteIcon from "@mui/icons-material/Delete";
-import FilterListIcon from "@mui/icons-material/FilterList";
 import { visuallyHidden } from "@mui/utils";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
-function createData(
-	category,
-	item,
-	img,
-	quantity,
-	lastUpdated,
-	price,
-	actions
-) {
+function createData(category, item, img, quantity, lastUpdated, price, id) {
 	return {
 		category,
 		item,
@@ -38,39 +31,9 @@ function createData(
 		quantity,
 		lastUpdated,
 		price,
-		actions,
+		id,
 	};
 }
-
-const rows = [
-	createData(
-		"Coasters",
-		"Coastguard Coaster",
-		"https://www.laseresque.com/images/products/thumbs/co-rc-101ab-01.png",
-		20,
-		"updated at",
-		5,
-		"edit | delete"
-	),
-	createData(
-		"Tumbler",
-		"16oz Tumbler",
-		"https://www.laseresque.com/images/products/thumbs/co-rc-101ab-01.png",
-		12,
-		"updated at",
-		25,
-		"edit | delete"
-	),
-	createData(
-		"Coasters",
-		"Coastguard Coaster",
-		"https://www.laseresque.com/images/products/thumbs/co-rc-101ab-01.png",
-		20,
-		"updated at",
-		5,
-		"edit | delete"
-	),
-];
 
 function descendingComparator(a, b, orderBy) {
 	if (b[orderBy] < a[orderBy]) {
@@ -121,7 +84,7 @@ const headCells = [
 		id: "img",
 		numeric: false,
 		disablePadding: false,
-		label: "img",
+		label: "Image",
 	},
 	{
 		id: "quantity",
@@ -163,7 +126,6 @@ function EnhancedTableHead(props) {
 				{headCells.map((headCell) => (
 					<TableCell
 						key={headCell.id}
-						// align={headCell.numeric ? "right" : "left"}
 						padding={headCell.disablePadding ? "none" : "normal"}
 						sortDirection={orderBy === headCell.id ? order : false}
 					>
@@ -198,7 +160,7 @@ EnhancedTableHead.propTypes = {
 };
 
 function EnhancedTableToolbar(props) {
-	const { numSelected } = props;
+	const { numSelected, products } = props;
 
 	return (
 		<Toolbar
@@ -230,11 +192,11 @@ function EnhancedTableToolbar(props) {
 					id="tableTitle"
 					component="div"
 				>
-					{`All (${54} items)`}
+					{`All (${products.length} items)`}
 				</Typography>
 			)}
 
-			{numSelected > 0 ? (
+			{/* {numSelected > 0 ? (
 				<Tooltip title="Delete">
 					<IconButton>
 						<DeleteIcon />
@@ -246,7 +208,7 @@ function EnhancedTableToolbar(props) {
 						<FilterListIcon />
 					</IconButton>
 				</Tooltip>
-			)}
+			)} */}
 		</Toolbar>
 	);
 }
@@ -255,27 +217,40 @@ EnhancedTableToolbar.propTypes = {
 	numSelected: PropTypes.number.isRequired,
 };
 
-export default function EnhancedTable() {
+export default function EnhancedTable({ products }) {
 	const [order, setOrder] = React.useState("asc");
 	const [orderBy, setOrderBy] = React.useState("customText");
 	const [selected, setSelected] = React.useState([]);
 	const [page, setPage] = React.useState(0);
 	const [rowsPerPage, setRowsPerPage] = React.useState(5);
+	const navigate = useNavigate();
 
 	const handleRequestSort = (event, property) => {
-		// const isAsc = orderBy === property && order === "asc";
-		// setOrder(isAsc ? "desc" : "asc");
-		// setOrderBy(property);
+		const isAsc = orderBy === property && order === "asc";
+		setOrder(isAsc ? "desc" : "asc");
+		setOrderBy(property);
 	};
 
-	// const handleSelectAllClick = (event) => {
-	// 	if (event.target.checked) {
-	// 		const newSelected = rows.map((n) => n.item);
-	// 		setSelected(newSelected);
-	// 		return;
-	// 	}
-	// 	setSelected([]);
-	// };
+	const rows = products.map((item) => {
+		return createData(
+			item.category,
+			item.name,
+			item.hasColors ? item.colors[0].imageURL : item.images[0].imageURL,
+			item.quantity,
+			item.updatedAt,
+			item.price,
+			item._id
+		);
+	});
+	console.log("rows ", rows);
+	const handleSelectAllClick = (event) => {
+		if (event.target.checked) {
+			const newSelected = rows.map((n) => n.item);
+			setSelected(newSelected);
+			return;
+		}
+		setSelected([]);
+	};
 
 	// const handleClick = (event, item) => {
 	// 	const selectedIndex = selected.indexOf(item);
@@ -324,14 +299,17 @@ export default function EnhancedTable() {
 	return (
 		<Box sx={{ width: "100%" }}>
 			<Paper sx={{ width: "100%", mb: 2 }}>
-				<EnhancedTableToolbar numSelected={selected.length} />
+				<EnhancedTableToolbar
+					numSelected={selected.length}
+					products={products}
+				/>
 				<TableContainer>
 					<Table sx={{ minWidth: 750 }} aria-labelledby="tableTitle">
 						<EnhancedTableHead
 							numSelected={selected.length}
 							order={order}
 							orderBy={orderBy}
-							// onSelectAllClick={handleSelectAllClick}
+							onSelectAllClick={handleSelectAllClick}
 							onRequestSort={handleRequestSort}
 							rowCount={rows.length}
 						/>
@@ -346,6 +324,11 @@ export default function EnhancedTable() {
 										// onClick={(event) =>
 										// 	handleClick(event, row.item)
 										// }
+										onClick={() =>
+											navigate(
+												"/admin/products/" + row.id
+											)
+										}
 										role="checkbox"
 										aria-checked={isItemSelected}
 										tabIndex={-1}
@@ -364,7 +347,11 @@ export default function EnhancedTable() {
 										</TableCell>
 										<TableCell>{row.item}</TableCell>
 										<TableCell>
-											<img src={row.img} alt={row.item} />
+											<img
+												style={{ height: "100px" }}
+												src={row.img}
+												alt={row.item}
+											/>
 										</TableCell>
 										<TableCell>{row.quantity}</TableCell>
 										<TableCell>{row.lastUpdated}</TableCell>

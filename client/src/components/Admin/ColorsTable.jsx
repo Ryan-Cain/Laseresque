@@ -12,15 +12,23 @@ function createData(color, colorName, imageURL) {
 	return { color, colorName, imageURL };
 }
 
-const rows = [
-	createData(
-		"rgb(25,35,98)",
-		"Blue",
-		"https://houseandcask.com/wp-content/uploads/LTM7204-PC-20-oz-Royal-Blue-Ringneck-Vacuum-Insulated-Tumbler-w-Clear-Lid.png"
-	),
-];
-
-export default function ColorsTable({ setOpenColorInput }) {
+export default function ColorsTable({
+	openColorInput,
+	setOpenColorInput,
+	newItem,
+	disabled,
+}) {
+	// const rows = [];
+	const rows = newItem.colors.map((item) => {
+		return createData(item.color, item.colorName, item.imageURL);
+	});
+	// const rows = [
+	// 	createData(
+	// 		"rgb(25,35,98)",
+	// 		"Blue",
+	// 		"https://houseandcask.com/wp-content/uploads/LTM7204-PC-20-oz-Royal-Blue-Ringneck-Vacuum-Insulated-Tumbler-w-Clear-Lid.png"
+	// 	),
+	// ];
 	return (
 		<TableContainer component={Paper}>
 			<Table aria-label="simple table">
@@ -31,15 +39,19 @@ export default function ColorsTable({ setOpenColorInput }) {
 							Color Name
 						</TableCell>
 						<TableCell>
-							image URL
+							Image URL
 							<Button
+								onClick={() =>
+									setOpenColorInput(!openColorInput)
+								}
 								style={{
-									marginLeft: "15px",
+									marginLeft: "45px",
 									backgroundColor: "green",
+									color: "white",
+									visibility: disabled ? "hidden" : "visible",
 								}}
 								variant="contained"
 								size="small"
-								onClick={() => setOpenColorInput(true)}
 							>
 								Add Color
 							</Button>
@@ -57,16 +69,17 @@ export default function ColorsTable({ setOpenColorInput }) {
 							}}
 						>
 							<TableCell component="th" scope="row">
-								{row.color}
+								<p
+									style={{
+										backgroundColor: row.color,
+										width: "75px",
+										height: "25px",
+										border: "black 2px solid",
+									}}
+								></p>
 							</TableCell>
 							<TableCell>{row.colorName}</TableCell>
-							<TableCell
-								style={{
-									display: "inline",
-								}}
-							>
-								{row.imageURL}
-							</TableCell>
+							<TableCell>{row.imageURL}</TableCell>
 						</TableRow>
 					))}
 				</TableBody>

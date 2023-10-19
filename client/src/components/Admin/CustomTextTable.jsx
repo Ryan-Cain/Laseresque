@@ -12,9 +12,17 @@ function createData(lineName, lineCharLength) {
 	return { lineName, lineCharLength };
 }
 
-const rows = [createData("Top Line", 35)];
+export default function CustomTextTable({
+	customText,
+	openCustomTextInput,
+	setOpenCustomTextInput,
+	disabled,
+}) {
+	const rows = customText.map((text) => {
+		return createData(text.customLineName, text.maxCharLength);
+	});
+	// const rows = [createData("Top Line", 35)];
 
-export default function CustomTextTable() {
 	return (
 		<TableContainer component={Paper}>
 			<Table aria-label="simple table">
@@ -24,9 +32,13 @@ export default function CustomTextTable() {
 						<TableCell>
 							Max Character Length
 							<Button
+								onClick={() =>
+									setOpenCustomTextInput(!openCustomTextInput)
+								}
 								style={{
-									marginLeft: "15px",
+									marginLeft: "45px",
 									backgroundColor: "green",
+									visibility: disabled ? "hidden" : "visible",
 								}}
 								variant="contained"
 								size="small"
