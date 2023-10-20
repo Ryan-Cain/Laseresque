@@ -7,13 +7,14 @@ import { CardActionArea } from "@mui/material";
 import { Stack } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
-const ColorButton = ({ color, setColor }) => {
+const ColorButton = ({ color, setColor, currentColor }) => {
 	return (
 		<div
 			onClick={() => setColor(color)}
 			style={{
 				backgroundColor: color.color,
 				borderRadius: "50%",
+				border: color.color === currentColor.color && "3px solid black",
 				height: "25px",
 				width: "25px",
 				marginRight: "10px",
@@ -55,11 +56,12 @@ const AddItemCardColor = ({ newItem }) => {
 			/>
 			<CardContent>
 				<Stack direction="row" sx={{ alignItems: "center" }}>
-					{newItem.colors.map((color, idx) => {
+					{newItem.colors.map((itemColor, idx) => {
 						return (
 							<ColorButton
 								key={idx}
-								color={color}
+								currentColor={color}
+								color={itemColor}
 								setColor={setColor}
 							/>
 						);

@@ -7,13 +7,14 @@ import { CardActionArea } from "@mui/material";
 import { Stack } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
-const ColorButton = ({ color, setColor }) => {
+const ColorButton = ({ color, setColor, currentColor }) => {
 	return (
 		<div
 			onClick={() => setColor(color)}
 			style={{
 				backgroundColor: color.color,
 				borderRadius: "50%",
+				border: color.color === currentColor.color && "3px solid black",
 				height: "25px",
 				width: "25px",
 				marginRight: "10px",
@@ -22,36 +23,57 @@ const ColorButton = ({ color, setColor }) => {
 	);
 };
 
-const ItemCardColor = ({ item, showColorName }) => {
+const ItemCardColor = ({ item, categoryName }) => {
 	const [color, setColor] = useState(item.colors[0]);
 	const navigate = useNavigate();
+	console.log(item.price);
 	return (
 		<Card>
-			<CardContent onClick={() => navigate("/shop/item/" + color.color)}>
+			<CardContent
+				onClick={() =>
+					navigate(`/shop/${item.category}/${item.nameEndpoint}`)
+				}
+			>
 				<Typography gutterBottom variant="h5" component="div">
-					{item.name} {showColorName && `(${color.displayedColor})`}
+					{item.name} {item.hasColors && `(${color.colorName})`}
 				</Typography>
 			</CardContent>
 			<CardMedia
-				onClick={() => navigate("/shop/item/" + color.color)}
+				onClick={() =>
+					navigate(`/shop/${item.category}/${item.nameEndpoint}`)
+				}
 				component="img"
 				id="productCardImg"
-				image={color.img}
-				alt={color.color}
+				image={color.imageURL}
+				alt={color.colorName}
 			/>
 			<CardContent>
-				<Stack direction="row" sx={{ alignItems: "center" }}>
-					{item.colors.map((color, idx) => {
-						console.log(color);
-						return (
-							<ColorButton
-								key={idx}
-								color={color}
-								setColor={setColor}
-							/>
-						);
-					})}
-					<p>(In stock)</p>
+				<Stack
+					direction="row"
+					sx={{
+						alignItems: "center",
+						justifyContent: "space-between",
+					}}
+				>
+					<div
+						style={{
+							display: "flex",
+							alignItems: "center",
+						}}
+					>
+						{item.colors.map((itemColor, idx) => {
+							return (
+								<ColorButton
+									key={idx}
+									currentColor={color}
+									color={itemColor}
+									setColor={setColor}
+								/>
+							);
+						})}
+						<p>(In stock)</p>
+					</div>
+					<h2>${item.price}</h2>
 				</Stack>
 			</CardContent>
 		</Card>

@@ -22,15 +22,10 @@ const ProductViewForm = ({
 	addCustomText,
 	createProduct,
 	setEditing,
+	categories,
 }) => {
 	const [openColorInput, setOpenColorInput] = useState(false);
 	const [openCustomTextInput, setOpenCustomTextInput] = useState(false);
-
-	const categories = [
-		{ displayName: "Coasters", name: "coasters" },
-		{ displayName: "Mugs", name: "mugs" },
-		{ displayName: "Tumblers", name: "tumblers" },
-	];
 
 	return (
 		<Container>
@@ -114,13 +109,15 @@ const ProductViewForm = ({
 										InputProps={{ readOnly: true }}
 										onChange={(e) => itemChange(e)}
 									>
-										{categories.map((category, idx) => {
+										{categories.map((category) => {
 											return (
 												<MenuItem
-													key={idx}
-													value={category.name}
+													key={category._id}
+													value={
+														category.categoryEndpoint
+													}
 												>
-													{category.displayName}
+													{category.category}
 												</MenuItem>
 											);
 										})}

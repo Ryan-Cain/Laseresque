@@ -8,6 +8,11 @@ const ProductSchema = new mongoose.Schema(
 			required: [true, "Must enter a name for your product"],
 			minLength: [3, "The name must be at least 3 char long"],
 		},
+		nameEndpoint: {
+			type: String,
+			required: [true, "Must enter a name endpoint for your product"],
+			minLength: [3, "The name endpoint must be at least 3 char long"],
+		},
 		price: {
 			type: Number,
 			required: [true, "Must enter a price for your product"],

@@ -24,15 +24,11 @@ const ProductForm = ({
 	createProduct,
 	editing,
 	setEditing,
+	editProduct,
+	categories,
 }) => {
 	const [openColorInput, setOpenColorInput] = useState(false);
 	const [openCustomTextInput, setOpenCustomTextInput] = useState(false);
-
-	const categories = [
-		{ displayName: "Coasters", name: "coasters" },
-		{ displayName: "Mugs", name: "mugs" },
-		{ displayName: "Tumblers", name: "tumblers" },
-	];
 
 	return (
 		<Container>
@@ -112,13 +108,15 @@ const ProductForm = ({
 										name="category"
 										onChange={(e) => itemChange(e)}
 									>
-										{categories.map((category, idx) => {
+										{categories.map((category) => {
 											return (
 												<MenuItem
-													key={idx}
-													value={category.name}
+													key={category._id}
+													value={
+														category.categoryEndpoint
+													}
 												>
-													{category.displayName}
+													{category.category}
 												</MenuItem>
 											);
 										})}
@@ -325,7 +323,7 @@ const ProductForm = ({
 								variant="contained"
 								size="large"
 								startIcon={<SaveAltIcon />}
-								onClick={createProduct}
+								onClick={editProduct}
 							>
 								Save Changes
 							</Button>

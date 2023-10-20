@@ -10,9 +10,19 @@ module.exports.readAll = (req, res) => {
 
 // READ ONE
 module.exports.readOne = (req, res) => {
-	Products.findOne({ _id: req.params.id })
+	Products.findOne({ nameEndpoint: req.params.productName })
 		.then((oneProducts) => {
 			res.json(oneProducts);
+		})
+		.catch((err) => {
+			res.status(400).json(err);
+		});
+};
+// READ BY CATEGORY
+module.exports.readCategory = (req, res) => {
+	Products.find({ category: req.params.category })
+		.then((categoryProducts) => {
+			res.json(categoryProducts);
 		})
 		.catch((err) => {
 			res.status(400).json(err);

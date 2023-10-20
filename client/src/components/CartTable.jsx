@@ -7,18 +7,27 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 
-function createData(item, customText, quantity, subtotal) {
-	return { item, customText, quantity, subtotal };
+function createData(name, customText, userQuantity, price) {
+	return { name, customText, userQuantity, price };
 }
 
-const rows = [
-	createData("20oz Tumbler", "this is custom text", 1, 25),
-	createData("Wineglass stemmed", "this is custom text", 4, 28),
-	createData("Airforce Coaster", "this is custom text", 10, 18),
-	createData("Cutting board", "this is custom text", 1, 45),
-];
+// const rows = [
+// 	createData("20oz Tumbler", "this is custom text", 1, 25),
+// 	createData("Wineglass stemmed", "this is custom text", 4, 28),
+// 	createData("Airforce Coaster", "this is custom text", 10, 18),
+// 	createData("Cutting board", "this is custom text", 1, 45),
+// ];
 
-export default function CartTable() {
+export default function CartTable({ userCart }) {
+	const rows = userCart.map((row) => {
+		const customTextInfo = row.customText.join("");
+		return createData(
+			row.name,
+			customTextInfo,
+			row.userQuantity,
+			row.price
+		);
+	});
 	return (
 		<TableContainer component={Paper} style={{ marginTop: "25px" }}>
 			<Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -55,11 +64,13 @@ export default function CartTable() {
 									src="https://houseandcask.com/wp-content/uploads/LTM7204-PC-20-oz-Royal-Blue-Ringneck-Vacuum-Insulated-Tumbler-w-Clear-Lid.png"
 									alt="tumbler"
 								/>
-								<p>{row.item}</p>
+								<p>{row.name}</p>
 							</TableCell>
-							<TableCell>{row.customText}</TableCell>
-							<TableCell>{row.quantity}</TableCell>
-							<TableCell align="right">{row.subtotal}</TableCell>
+							{/* <TableCell>{row.customText}</TableCell> */}
+							<TableCell>{row.userQuantity}</TableCell>
+							<TableCell align="right">
+								{row.price * row.userQuantity}
+							</TableCell>
 						</TableRow>
 					))}
 					<TableRow>

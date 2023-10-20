@@ -13,6 +13,7 @@ const NewCategory = ({ categories, setCategories }) => {
 	const navigate = useNavigate();
 	const [newCategory, setNewCategory] = useState({
 		category: "",
+		categoryEndpoint: "",
 		imageURL: "",
 	});
 	const itemChange = (e) => {
@@ -22,8 +23,13 @@ const NewCategory = ({ categories, setCategories }) => {
 		setNewCategory({
 			...newCategory,
 			[name]: value,
+			categoryEndpoint: removeSpacesMakeLowercase(newCategory.category),
 		});
 	};
+	// This function removes the spaces from the displayable categoryname and makes it all lowercase
+	function removeSpacesMakeLowercase(catName) {
+		return catName.split(" ").join("").toLowerCase();
+	}
 
 	// send request to create product
 	const createCategory = () => {
@@ -31,6 +37,9 @@ const NewCategory = ({ categories, setCategories }) => {
 			.post("http://localhost:8000/api/categories", newCategory)
 			.then((res) => {
 				console.log(res.data);
+				setNewCategory({
+					...newCategory,
+				});
 				setCategories([...categories, res.data]);
 				navigate("/admin/categories");
 			})

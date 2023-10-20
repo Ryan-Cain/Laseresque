@@ -8,6 +8,17 @@ const CategorySchema = new mongoose.Schema(
 			required: [true, "Must enter a name for your category"],
 			minLength: [3, "The name must be at least 3 char long"],
 		},
+		categoryEndpoint: {
+			type: String,
+			required: [
+				true,
+				"Must have an endpoint version of your category name",
+			],
+			minLength: [
+				3,
+				"The category endpoint must be at least 3 char long",
+			],
+		},
 		imageURL: {
 			type: String,
 			required: [true, "Must enter an image url"],

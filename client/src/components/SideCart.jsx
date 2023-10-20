@@ -1,28 +1,21 @@
 import React from "react";
 import { Stack } from "@mui/material";
 
-const staticItems = [
-	{ name: "20oz Tumbler", quantity: 2, price: 20 },
-	{ name: "Stemless glass", quantity: 1, price: 18 },
-];
-const totalCartPrice = 38;
-
 const SideItem = ({ item }) => {
 	return (
-		// <div>
-		// 	<span>x{item.quantity}</span>
-		// 	{" - "}
-		// 	<span>{item.name}</span>
-		// 	{" - "}
-		// 	<span>${item.price * item.quantity}</span>
-		// </div>
 		<div>
-			x{item.quantity} - {item.name} - ${item.price * item.quantity}
+			x{item.userQuantity} - {item.name} - $
+			{item.price * item.userQuantity}
 		</div>
 	);
 };
 
-const SideCart = () => {
+const SideCart = ({ userCart }) => {
+	let totalCartPrice = 0;
+	userCart.forEach((item) => {
+		const newSubtotal = item.price * item.userQuantity;
+		totalCartPrice += newSubtotal;
+	});
 	return (
 		<Stack
 			sx={{
@@ -32,9 +25,10 @@ const SideCart = () => {
 			}}
 		>
 			<h3>Cart</h3>
-			{staticItems.map((item, idx) => {
-				return <SideItem key={idx} item={item} />;
-			})}
+			{userCart.length > 0 &&
+				userCart.map((item, idx) => {
+					return <SideItem key={idx} item={item} />;
+				})}
 			<h4 style={{ alignSelf: "flex-end" }}>
 				Subtotal - ${totalCartPrice}
 			</h4>
@@ -46,6 +40,7 @@ const SideCart = () => {
 			>
 				(does not include tax or shipping)
 			</p>
+			{/* {JSON.stringify(userCart)} */}
 		</Stack>
 	);
 };

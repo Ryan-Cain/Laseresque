@@ -29,7 +29,7 @@ const UserBox = styled(Box)(({ theme }) => ({
 	gap: "10px",
 }));
 
-const Navbar = () => {
+const Navbar = ({ cartItems }) => {
 	const [open, setOpen] = useState(false);
 	const navigate = useNavigate();
 	return (
@@ -37,7 +37,7 @@ const Navbar = () => {
 			<StyledToolbar>
 				<Typography variant="h6">Laseresque</Typography>
 				<Icons>
-					<Badge badgeContent={2} color="error">
+					<Badge badgeContent={cartItems} color="error">
 						<ShoppingCartIcon
 							onClick={() => navigate("/shop/cart")}
 							fontSize="large"

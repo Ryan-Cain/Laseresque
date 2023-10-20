@@ -1,84 +1,25 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Grid, Container } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import ItemCardColor from "./ItemCardColor";
+import axios from "axios";
 
-const categoryStaticInfo = {
-	name: "Tumblers",
-	items: [
-		{
-			name: "16oz Tumbler",
-			colorPick: true,
-			colors: [
-				{
-					color: "blue",
-					img: "https://houseandcask.com/wp-content/uploads/LTM7204-PC-20-oz-Royal-Blue-Ringneck-Vacuum-Insulated-Tumbler-w-Clear-Lid.png",
-				},
-				{
-					color: "orange",
-					img: "https://s3.amazonaws.com/images.ecwid.com/images/16075414/1151955304.jpg",
-				},
-				{
-					color: "brown",
-					img: "https://s7d9.scene7.com/is/image/BedBathandBeyond/155322763231878p?wid=200&hei=200",
-				},
-				{
-					color: "red",
-					img: "https://www.trophykits.com/images/gt/LTM7203-1.jpg",
-				},
-			],
-		},
-		{
-			name: "20oz Tumbler",
-			colorPick: true,
-			colors: [
-				{
-					color: "blue",
-					img: "https://houseandcask.com/wp-content/uploads/LTM7204-PC-20-oz-Royal-Blue-Ringneck-Vacuum-Insulated-Tumbler-w-Clear-Lid.png",
-				},
-				{
-					color: "orange",
-					img: "https://s3.amazonaws.com/images.ecwid.com/images/16075414/1151955304.jpg",
-				},
-				{
-					color: "brown",
-					img: "https://s7d9.scene7.com/is/image/BedBathandBeyond/155322763231878p?wid=200&hei=200",
-				},
-				{
-					color: "red",
-					img: "https://www.trophykits.com/images/gt/LTM7203-1.jpg",
-				},
-			],
-		},
-		{
-			name: "24oz Tumbler",
-			colorPick: true,
-			colors: [
-				{
-					color: "blue",
-					img: "https://houseandcask.com/wp-content/uploads/LTM7204-PC-20-oz-Royal-Blue-Ringneck-Vacuum-Insulated-Tumbler-w-Clear-Lid.png",
-				},
-				{
-					color: "orange",
-					img: "https://s3.amazonaws.com/images.ecwid.com/images/16075414/1151955304.jpg",
-				},
-				{
-					color: "brown",
-					img: "https://s7d9.scene7.com/is/image/BedBathandBeyond/155322763231878p?wid=200&hei=200",
-				},
-				{
-					color: "red",
-					img: "https://www.trophykits.com/images/gt/LTM7203-1.jpg",
-				},
-			],
-		},
-	],
-};
-
-const ShopCategory = ({ setSideCartOpen }) => {
+const ShopCategory = ({ setSideCartOpen, categories }) => {
+	const { category } = useParams();
+	const categoryName = categories.filter((cat) => {
+		return cat.categoryEndpoint === category;
+	});
+	console.log("cat name", categoryName);
+	const [categoryProducts, setCategoryProducts] = useState([]);
 	useEffect(() => {
 		setSideCartOpen(true);
-	}, []);
+		axios
+			.get("http://localhost:8000/api/products/" + category)
+			.then((res) => {
+				setCategoryProducts([...res.data]);
+				console.log(res.data);
+			});
+	}, [category, setSideCartOpen]);
 	return (
 		<Container>
 			<div
@@ -108,16 +49,16 @@ const ShopCategory = ({ setSideCartOpen }) => {
 					>
 						{">"}
 					</span>
-					<Link to={"/shop/" + categoryStaticInfo.name}>
+					<Link to={"/shop/" + category.name}>
 						<h2 style={{ margin: "10px 0", color: "blue" }}>
-							{categoryStaticInfo.name}
+							{categoryName[0].category}
 						</h2>
 					</Link>
 				</Grid>
-				{categoryStaticInfo.items.map((item, idx) => {
+				{categoryProducts.map((product) => {
 					return (
-						<Grid item key={idx} xs={4}>
-							<ItemCardColor item={item} />
+						<Grid item key={product._id} xs={4}>
+							<ItemCardColor item={product} />
 						</Grid>
 					);
 				})}

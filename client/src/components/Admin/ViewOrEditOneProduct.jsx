@@ -8,9 +8,9 @@ import { useNavigate, useParams } from "react-router-dom";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import axios from "axios";
 
-const ViewOrEditOneProduct = ({ products, setProducts }) => {
+const ViewOrEditOneProduct = ({ products, setProducts, categories }) => {
 	const navigate = useNavigate();
-	const { id } = useParams();
+	const { productName } = useParams();
 	const [editing, setEditing] = useState(false);
 	const [newItem, setNewItem] = useState({
 		name: "",
@@ -83,16 +83,34 @@ const ViewOrEditOneProduct = ({ products, setProducts }) => {
 				console.log(errorResponse);
 			});
 	};
+	// send request to edit product and update dom
+	const editProduct = () => {
+		axios
+			.patch(
+				"http://localhost:8000/api/" + newItem._id + "/edit",
+				newItem
+			)
+			.then((res) => {
+				console.log(res);
+				const filteredProducts = products.filter(
+					(product) => product._id !== newItem._id
+				);
+				setProducts([...filteredProducts, newItem]);
+				setEditing(false);
+			})
+			.catch((err) => {
+				console.log(err.response.data.errors);
+			});
+	};
 
 	useEffect(() => {
 		axios
-			.get("http://localhost:8000/api/products/" + id)
+			.get("http://localhost:8000/api/category/" + productName)
 			.then((res) => {
 				setNewItem(res.data);
 			})
 			.catch((err) => console.log(err));
 	}, []);
-
 	return (
 		<Container>
 			<h2 style={{ margin: "15px 0" }}>
@@ -117,6 +135,7 @@ const ViewOrEditOneProduct = ({ products, setProducts }) => {
 			>
 				<Grid item xs={5}>
 					<Paper elevation={12}>
+						{/* {JSON.stringify(newItem)} */}
 						<AddItemCardColor newItem={newItem} />
 					</Paper>
 				</Grid>
@@ -132,6 +151,8 @@ const ViewOrEditOneProduct = ({ products, setProducts }) => {
 							createProduct={createProduct}
 							editing={editing}
 							setEditing={setEditing}
+							categories={categories}
+							editProduct={editProduct}
 						/>
 					) : (
 						<ProductViewForm
@@ -143,6 +164,7 @@ const ViewOrEditOneProduct = ({ products, setProducts }) => {
 							customTextChange={customTextChange}
 							createProduct={createProduct}
 							setEditing={setEditing}
+							categories={categories}
 						/>
 					)}
 				</Grid>

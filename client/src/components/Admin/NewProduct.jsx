@@ -7,10 +7,11 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-const NewProduct = ({ products, setProducts }) => {
+const NewProduct = ({ products, setProducts, categories }) => {
 	const navigate = useNavigate();
 	const [newItem, setNewItem] = useState({
 		name: "",
+		nameEndpoint: "",
 		price: null,
 		quantity: null,
 		hasColors: false,
@@ -20,6 +21,10 @@ const NewProduct = ({ products, setProducts }) => {
 		images: [],
 		customText: [],
 	});
+	// This function removes the spaces from the displayable categoryname and makes it all lowercase
+	function removeSpacesMakeLowercase(productName) {
+		return productName.split(" ").join("").toLowerCase();
+	}
 	const itemChange = (e) => {
 		e.preventDefault();
 		console.log(e.target.name);
@@ -30,6 +35,7 @@ const NewProduct = ({ products, setProducts }) => {
 				name === "hasColors" || name === "hasCustomText"
 					? checked
 					: value,
+			nameEndpoint: removeSpacesMakeLowercase(newItem.name),
 		});
 	};
 	const [customColor, setCustomColor] = useState({});
@@ -48,12 +54,20 @@ const NewProduct = ({ products, setProducts }) => {
 			colors,
 		});
 	};
-	const [customTextLine, setCustomTextLine] = useState({});
+	const [customTextLine, setCustomTextLine] = useState({
+		customLineName: "",
+		customLineNameNoSpace: "",
+		maxCharLength: "",
+	});
 	const customTextChange = (e) => {
 		console.log(e);
 		setCustomTextLine({
 			...customTextLine,
 			[e.target.name]: e.target.value,
+			customLineNameNoSpace:
+				e.target.name === "customLineName"
+					? removeSpacesMakeLowercase(e.target.value)
+					: customTextLine.customLineName,
 		});
 		console.log(customColor);
 	};
@@ -115,9 +129,11 @@ const NewProduct = ({ products, setProducts }) => {
 						addCustomText={addCustomText}
 						customTextChange={customTextChange}
 						createProduct={createProduct}
+						categories={categories}
 					/>
 				</Grid>
 			</Grid>
+			{JSON.stringify(customTextLine)}
 		</Container>
 	);
 };

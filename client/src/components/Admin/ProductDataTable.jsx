@@ -23,10 +23,20 @@ import { visuallyHidden } from "@mui/utils";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-function createData(category, item, img, quantity, lastUpdated, price, id) {
+function createData(
+	category,
+	item,
+	nameEndpoint,
+	img,
+	quantity,
+	lastUpdated,
+	price,
+	id
+) {
 	return {
 		category,
 		item,
+		nameEndpoint,
 		img,
 		quantity,
 		lastUpdated,
@@ -235,6 +245,7 @@ export default function EnhancedTable({ products }) {
 		return createData(
 			item.category,
 			item.name,
+			item.nameEndpoint,
 			item.hasColors ? item.colors[0].imageURL : item.images[0].imageURL,
 			item.quantity,
 			item.updatedAt,
@@ -326,7 +337,8 @@ export default function EnhancedTable({ products }) {
 										// }
 										onClick={() =>
 											navigate(
-												"/admin/products/" + row.id
+												"/admin/products/" +
+													row.nameEndpoint
 											)
 										}
 										role="checkbox"

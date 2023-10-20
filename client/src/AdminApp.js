@@ -64,11 +64,12 @@ function App() {
 						element={<AdminSingleApproval />}
 					/>
 					<Route
-						path="/admin/products/:id"
+						path="/admin/products/:productName"
 						element={
 							<ViewOrEditOneProduct
 								products={products}
 								setProducts={setProducts}
+								categories={categories}
 							/>
 						}
 					/>
@@ -78,6 +79,7 @@ function App() {
 							<NewProduct
 								products={products}
 								setProducts={setProducts}
+								categories={categories}
 							/>
 						}
 					/>

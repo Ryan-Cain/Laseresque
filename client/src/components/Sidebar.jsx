@@ -11,7 +11,7 @@ import CircleIcon from "@mui/icons-material/Circle";
 import { useNavigate } from "react-router-dom";
 import SideCart from "./SideCart";
 
-const Sidebar = ({ sideCartOpen }) => {
+const Sidebar = ({ sideCartOpen, categories, userCart }) => {
 	const navigate = useNavigate();
 
 	return (
@@ -46,69 +46,30 @@ const Sidebar = ({ sideCartOpen }) => {
 				</ListItemButton>
 				<Collapse in={true} timeout="auto" unmountOnExit>
 					<List component="div" disablePadding>
-						<ListItemButton
-							sx={{ pl: 4 }}
-							onClick={() => navigate("/shop/category")}
-						>
-							<ListItemIcon>
-								<CircleIcon sx={{ fontSize: "small" }} />
-							</ListItemIcon>
-							<ListItemText primary="Coasters" />
-						</ListItemButton>
-
-						<ListItemButton
-							sx={{ pl: 4 }}
-							onClick={() => navigate("/shop/category")}
-						>
-							<ListItemIcon>
-								<CircleIcon sx={{ fontSize: "small" }} />
-							</ListItemIcon>
-							<ListItemText primary="Glassware" />
-						</ListItemButton>
-
-						<ListItemButton
-							sx={{ pl: 4 }}
-							onClick={() => navigate("/shop/category")}
-						>
-							<ListItemIcon>
-								<CircleIcon sx={{ fontSize: "small" }} />
-							</ListItemIcon>
-							<ListItemText primary="Misc" />
-						</ListItemButton>
-
-						<ListItemButton
-							sx={{ pl: 4 }}
-							onClick={() => navigate("/shop/category")}
-						>
-							<ListItemIcon>
-								<CircleIcon sx={{ fontSize: "small" }} />
-							</ListItemIcon>
-							<ListItemText primary="Mugs" />
-						</ListItemButton>
-
-						<ListItemButton
-							sx={{ pl: 4 }}
-							onClick={() => navigate("/shop/category")}
-						>
-							<ListItemIcon>
-								<CircleIcon sx={{ fontSize: "small" }} />
-							</ListItemIcon>
-							<ListItemText primary="Plaques" />
-						</ListItemButton>
-
-						<ListItemButton
-							sx={{ pl: 4 }}
-							onClick={() => navigate("/shop/category")}
-						>
-							<ListItemIcon>
-								<CircleIcon sx={{ fontSize: "small" }} />
-							</ListItemIcon>
-							<ListItemText primary="Tumblers" />
-						</ListItemButton>
+						{categories.map((category) => {
+							return (
+								<ListItemButton
+									key={category._id}
+									sx={{ pl: 4 }}
+									onClick={() =>
+										navigate(
+											"/shop/" + category.categoryEndpoint
+										)
+									}
+								>
+									<ListItemIcon>
+										<CircleIcon
+											sx={{ fontSize: "small" }}
+										/>
+									</ListItemIcon>
+									<ListItemText primary={category.category} />
+								</ListItemButton>
+							);
+						})}
 					</List>
 				</Collapse>
 			</List>
-			{sideCartOpen && <SideCart />}
+			{sideCartOpen && <SideCart userCart={userCart} />}
 		</div>
 	);
 };
